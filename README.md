@@ -8,7 +8,9 @@ through `node.js', but for most applications usage of the native
 This library has no external dependencies and weights less than 1kb when
 minified and gziped.
 
-## Usage
+Complete API documentation is available [here](http://acornejo.github.io/uevents.js/).
+
+## Basic Usage
 
 You can create a new uevents object on which you can register callbacks
 for named events, and unregister callbacks for named events, and trigger
