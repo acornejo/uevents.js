@@ -1,0 +1,32 @@
+{
+  "name": "uevents.js",
+  "version": "0.1.0",
+  "author": "Alex Cornejo",
+  "main": "uevents.js",
+  "devDependencies": {
+    "chai": "~1.8.1",
+    "sinon": "~1.7.3",
+    "sinon-chai": "~2.4.0",
+    "mocha": "~1.13.0",
+    "uglify-js": "~2.4.0",
+    "jshint": "~2.3.0"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acornejo/uevents.js.git",
+    "web": "https://github.com/acornejo/uevents.js"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "scripts": {
+    "prepublish": "./node_modules/.bin/uglifyjs -o uevents.min.js uevents.js",
+    "pretest": "./node_modules/.bin/jshint -e 'js,json' uevents.js ./test",
+    "test": "./node_modules/.bin/mocha -b -R spec ./test"
+  },
+  "description": ""
+}

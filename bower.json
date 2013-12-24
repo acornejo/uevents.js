@@ -1,0 +1,21 @@
+{
+  "name": "uevents.js",
+  "main": "uevents.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/acornejo/uevents.js",
+  "authors": [
+    "Alex Cornejo <acornejo@gmail.com>"
+  ],
+  "description": "Micro Events Javascript Library",
+  "keywords": [
+    "events",
+    "trigger",
+    "signals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}
