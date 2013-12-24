@@ -2,7 +2,7 @@
 
 Micro events library for javascript. It works in the browser and has support
 for CommonJS and AMD loading built in. It can also be used on the server
-through `node.js', but for most applications usage of the native
+through `node.js`, but for most applications usage of the native
 `events` API should suffice.
 
 This library has no external dependencies and weights less than 1kb when
