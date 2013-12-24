@@ -1,6 +1,6 @@
 # uevents.js
 
-Micro event javascript library. It works in the browser and has support
+Micro events library for javascript. It works in the browser and has support
 for CommonJS and AMD loading built in. It can also be used on the server
 through `node.js', but for most applications usage of the native
 `events` API should suffice.
