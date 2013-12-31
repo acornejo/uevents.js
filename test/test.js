@@ -114,11 +114,11 @@ describe("extend", function () {
     expect(ctx.signal2_listener2).not.to.be.called;
   });
 
-  it("on (check context)", function () {
-    ctx.obj.trigger("signal1");
-    expect(ctx.signal1_listener1).to.be.calledOn(ctx.obj);
-    expect(ctx.signal1_listener2).to.be.calledOn(ctx.obj);
-  });
+  // it("on (check context)", function () {
+  //   ctx.obj.trigger("signal1");
+  //   expect(ctx.signal1_listener1).to.be.calledOn(ctx.obj);
+  //   expect(ctx.signal1_listener2).to.be.calledOn(ctx.obj);
+  // });
 
   it("on (with parameters)", function () {
     ctx.obj.trigger("signal1", "A", "B");

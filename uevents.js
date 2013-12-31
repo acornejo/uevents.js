@@ -183,11 +183,11 @@
    * @param {Object} obj Object to extend to support event handling.
    */
   uevents.extend = function (obj) {
-    obj._events = {};
-    obj.on = uevents.prototype.on;
-    obj.once = uevents.prototype.once;
-    obj.off = uevents.prototype.off;
-    obj.trigger = uevents.prototype.trigger;
+    var data = {_events: {}};
+    obj.on = uevents.prototype.on.bind(data);
+    obj.once = uevents.prototype.once.bind(data);
+    obj.off = uevents.prototype.off.bind(data);
+    obj.trigger = uevents.prototype.trigger.bind(data);
   };
 
   if (typeof require === "function" && typeof exports === "object" && typeof module === "object") 

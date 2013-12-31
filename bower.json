@@ -9,13 +9,20 @@
   "description": "Micro Events Javascript Library",
   "keywords": [
     "events",
+    "signals",
+    "event",
+    "signal",
     "trigger",
-    "signals"
+    "on",
+    "off",
+    "listener"
   ],
   "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components"
+    "bower_components",
+    "test",
+    "tests"
   ]
 }
