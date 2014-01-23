@@ -1,23 +1,35 @@
 (function () {
+  var uevents = {
 
-  /**
-   * Create new events object. 
-   *
-   * **Example:**
-   * 
-   *     var obj = new uevents();
-   *
-   * <br>
-   * Using new is optional but recommended.
-   *
-   */
+    /**
+     * Create a new uevents object or extend
+     * an existing object with the uevents api.
+     *
+     * **Example:**
+     *
+     *     var obj = uevents.create();
+     *
+     *     // to extend existing object use
+     *
+     *     var other_obj = {};
+     *     uevents.create(other_obj);
+     */
 
-  function uevents() {
-    if (!(this instanceof uevents))
-      return new uevents();
-
-    this._events = {};
-  }
+    create: function(obj) {
+      if (typeof obj === 'undefined') {
+        var self = Object.create(this);
+        self._events = {};
+        return self;
+      }
+      else {
+        var data = {_events: {}};
+        obj.on = uevents.on.bind(data);
+        obj.once = uevents.once.bind(data);
+        obj.off = uevents.off.bind(data);
+        obj.trigger = uevents.trigger.bind(data);
+        return obj;
+      }
+    },
 
     /**
      * Registers a listener for a specified event.
@@ -31,7 +43,7 @@
      *
      * **Example:**
      *
-     *     var obj = new uevents(), ctx = {};
+     *     var obj = uevents.create(), ctx = {name: 'context'};
      *     obj.on('signal', function (param) {
      *         console.log('signal called with parameter ' + param + ' and context ' + this);
      *     }, ctx);
@@ -44,13 +56,13 @@
      * @param {Function} callback function to call when event is triggered
      * @param {Object} context [optional] calling context
      */
-  uevents.prototype.on = function (name, callback, context) {
-    if (!this._events.hasOwnProperty(name))
-      this._events[name] = [];
-    this._events[name].push([callback, context]);
+    on: function (name, callback, context) {
+      if (!this._events.hasOwnProperty(name))
+        this._events[name] = [];
+      this._events[name].push([callback, context]);
 
-    return this;
-  };
+      return this;
+    },
 
     /**
      * Register one-time listener for a specified event.
@@ -64,7 +76,7 @@
      *
      * ### Example:
      *
-     *     var obj = new uevents();
+     *     var obj = uevents.create();
      *     obj.once('signal', function() {
      *        console.log('signal called (this will only be printed once)');
      *     });
@@ -73,14 +85,13 @@
      * @param {Function} callback function to be called once when event is triggered.
      * @param {Object} context (optional) the calling context for the function (defaults to the instance of the uevents object used)
      */
-  uevents.prototype.once = function (name, callback, context) {
-    var self = this, once = function () {
-      self.off(name, once);
-      callback.apply(context || this, arguments);
-    };
-    return this.on(name, once, context);
-  };
-
+    once: function (name, callback, context) {
+      var self = this, once = function () {
+        self.off(name, once);
+        callback.apply(context || this, arguments);
+      };
+      return this.on(name, once, context);
+    },
 
     /**
      * Removes listener(s) from an event.
@@ -108,27 +119,27 @@
      * @param {Function} callback [optional] function called when event is triggered
      * @param {Object} context [optional] calling context
      */
-  uevents.prototype.off = function (name, callback, context) {
-    if (!name) {
-      this._events = {};
-    } else if (this._events.hasOwnProperty(name)) {
-      if (!callback && !context) {
-        delete this._events[name];
-      } else {
-        var event = this._events[name], filtered = [];
-        for (var i = 0, len = event.length; i < len; i++) {
-          if ((!callback || event[i][0] !== callback) && (!context || event[i][1] === context))
-            filtered.push(event[i]);
-        }
-        if (!filtered.length)
+    off: function (name, callback, context) {
+      if (!name) {
+        this._events = {};
+      } else if (this._events.hasOwnProperty(name)) {
+        if (!callback && !context) {
           delete this._events[name];
-        else
-          this._events[name] = filtered;
+        } else {
+          var event = this._events[name], filtered = [];
+          for (var i = 0, len = event.length; i < len; i++) {
+            if ((!callback || event[i][0] !== callback) && (!context || event[i][1] === context))
+              filtered.push(event[i]);
+          }
+          if (!filtered.length)
+            delete this._events[name];
+          else
+            this._events[name] = filtered;
+        }
       }
-    }
 
-    return this;
-  };
+      return this;
+    },
 
     /**
      * Triggers an event.
@@ -145,54 +156,22 @@
      * @param {Object} param2 [optional] second parameter
      * @param {Object} paramN [optional] ...
      */
-  uevents.prototype.trigger = function (name) {
-    if (this._events.hasOwnProperty(name)) {
-      var args = Array.prototype.slice.call(arguments, 1),
-          callbacks = this._events[name],
-          len = callbacks.length;
-      for (var i = 0; i < len; i++) {
-        var callback = callbacks[i][0], context = callbacks[i][1];
-        callback.apply(context || this, args);
+    trigger: function (name) {
+      if (this._events.hasOwnProperty(name)) {
+        var args = Array.prototype.slice.call(arguments, 1),
+            callbacks = this._events[name],
+            len = callbacks.length;
+        for (var i = 0; i < len; i++) {
+          var callback = callbacks[i][0], context = callbacks[i][1];
+          callback.apply(context || this, args);
+        }
       }
-    }
+    },
   };
 
-  /**
-   * Extends and object to handle events.
-   *
-   * **Example:**
-   *
-   *     var obj = {};
-   *     uevents.extend(obj);
-   *
-   *     // register listener
-   *     obj.on('signal', function () {
-   *       console.log('signal called');
-   *     });
-   *
-   *     // trigger signal
-   *     obj.trigger('signal');
-   *
-   *     // remove listeners
-   *     obj.off('signal');
-   *
-   *  <br>
-   *  The same API is available on extend objects than on native uevents
-   *  objects.
-   *
-   * @param {Object} obj Object to extend to support event handling.
-   */
-  uevents.extend = function (obj) {
-    var data = {_events: {}};
-    obj.on = uevents.prototype.on.bind(data);
-    obj.once = uevents.prototype.once.bind(data);
-    obj.off = uevents.prototype.off.bind(data);
-    obj.trigger = uevents.prototype.trigger.bind(data);
-  };
-
-  if (typeof require === "function" && typeof exports === "object" && typeof module === "object") 
+  if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
     module.exports = uevents;
-  else if (typeof define === "function" && define.amd) 
+  else if (typeof define === "function" && define.amd)
     define(["uevents"], function () { return uevents; });
   else
     window.uevents = uevents;

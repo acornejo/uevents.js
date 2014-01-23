@@ -13,7 +13,7 @@ describe("basic", function () {
   var ctx = {};
 
   beforeEach(function () {
-    ctx.obj = new uevents();
+    ctx.obj = uevents.create();
     ctx.signal1_listener1 = new sinon.spy();
     ctx.signal1_listener2 = new sinon.spy();
     ctx.signal2_listener1 = new sinon.spy();
@@ -88,7 +88,7 @@ describe("extend", function () {
 
   beforeEach(function () {
     ctx.obj = new Date();
-    uevents.extend(ctx.obj);
+    uevents.create(ctx.obj);
     ctx.signal1_listener1 = new sinon.spy();
     ctx.signal1_listener2 = new sinon.spy();
     ctx.signal2_listener1 = new sinon.spy();
