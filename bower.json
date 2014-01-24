@@ -1,7 +1,7 @@
 {
   "name": "uevents.js",
   "main": "uevents.js",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "homepage": "https://github.com/acornejo/uevents.js",
   "authors": [
     "Alex Cornejo <acornejo@gmail.com>"
