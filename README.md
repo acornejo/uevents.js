@@ -18,7 +18,7 @@ events.
 
 ```javascript
     // create new uevents object
-    var obj = new uevents();
+    var obj = uevents.create();
 
     // register callback for signal receiving two parmeters
     obj.on('signal', function (a, b) {
@@ -48,7 +48,7 @@ events using the same API.
 
     var obj = new ComplicatedCustomObject();
 
-    uevents.extend(obj);
+    uevents.create(obj);
 
     // register callback for 'signal'
     obj.on('signal', function () {

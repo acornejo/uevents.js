@@ -24,7 +24,7 @@
       else {
         var data = {_events: {}};
         obj.on = uevents.on.bind(data);
-        obj.once = uevents.once.bind(data);
+        obj.once = uevents.once.bind(obj);
         obj.off = uevents.off.bind(data);
         obj.trigger = uevents.trigger.bind(data);
         return obj;
@@ -88,7 +88,7 @@
     once: function (name, callback, context) {
       var self = this, once = function () {
         self.off(name, once);
-        callback.apply(context || this, arguments);
+        callback.apply(context || self, arguments);
       };
       return this.on(name, once, context);
     },
