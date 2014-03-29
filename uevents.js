@@ -172,7 +172,7 @@
   if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
     module.exports = uevents;
   else if (typeof define === "function" && define.amd)
-    define(["uevents"], function () { return uevents; });
+    define(function () { return uevents; });
   else
     window.uevents = uevents;
 })();
